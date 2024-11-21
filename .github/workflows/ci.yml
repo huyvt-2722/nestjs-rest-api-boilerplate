@@ -13,21 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
+    # Checkout the code
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Step 2: Set up Node.js
+    # Set up Node.js
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18 # Use the appropriate version for your project
+        node-version: 20 # Use the appropriate version for your project
 
-    # Step 3: Install dependencies
+    # Install dependencies
     - name: Install dependencies
       run: yarn install
 
-    # Step 5: Run linting
+    - name: Run tests
+      run: yarn test
+
+    # Run linting
     - name: Check lint
       run: yarn lint
 
