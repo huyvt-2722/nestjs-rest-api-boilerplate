@@ -1,0 +1,28 @@
+name: docker
+run-name: Check Docker
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+defaults:
+  run:
+    # Explicitly set `shell` to `bash` to execute commands with more strict options.
+    shell: bash
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: read
+jobs:
+  check-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Common setup
+      uses: ./.github/actions/setup
+    - name: Docker build
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false

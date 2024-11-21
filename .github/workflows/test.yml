@@ -1,0 +1,24 @@
+name: test
+run-name: Run test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+defaults:
+  run:
+    # Explicitly set `shell` to `bash` to execute commands with more strict options.
+    shell: bash
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Common setup
+        uses: ./.github/actions/setup
+      - name: Run test
+        run: yarn test
