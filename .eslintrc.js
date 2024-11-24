@@ -19,11 +19,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays Prettier errors as ESLint errors
   ],
-  plugins: [
-    '@typescript-eslint',
-    'prettier',
-    'import',
-  ],
+  plugins: ['@typescript-eslint', 'prettier', 'import'],
   rules: {
     // TypeScript-Specific Rules
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }], // Ignore unused variables starting with "_"
@@ -35,7 +31,11 @@ module.exports = {
     'import/order': [
       'error',
       {
-        groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+        groups: [
+          ['builtin', 'external'],
+          'internal',
+          ['parent', 'sibling', 'index'],
+        ],
         'newlines-between': 'always',
         alphabetize: { order: 'asc', caseInsensitive: true },
       },

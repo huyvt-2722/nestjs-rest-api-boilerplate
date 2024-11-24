@@ -1,5 +1,3 @@
 module.exports = {
-  '*.ts': [
-    'eslint --fix',
-  ]
-}
+  '*.ts': ['eslint --fix'],
+};

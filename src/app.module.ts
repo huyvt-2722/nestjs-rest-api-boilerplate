@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApiConfigService } from 'shared/services/api-config.service';
+import { SharedModule } from 'shared/shared.module';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,19 +16,19 @@ import { AppService } from './app.service';
       envFilePath: process.env.NODE_ENV === 'development' ? '.env.dev' : '.env',
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT'),
-        username: configService.get<string>('DATABASE_USERNAME'),
-        password: configService.get<string>('DATABASE_PASSWORD'),
-        database: configService.get<string>('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get<boolean>('DATABASE_SYNCHRONIZE'),
-        migrations: ['database/migrations/*{.ts,.js}'],
-      }),
+      imports: [SharedModule],
+      useFactory: (configService: ApiConfigService) =>
+        configService.postgresConfig,
+      inject: [ApiConfigService],
+      dataSourceFactory: (options) => {
+        if (!options) {
+          throw new Error('Invalid options passed');
+        }
+
+        return Promise.resolve(
+          addTransactionalDataSource(new DataSource(options)),
+        );
+      },
     }),
   ],
   controllers: [AppController],
