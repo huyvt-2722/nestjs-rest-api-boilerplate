@@ -10,7 +10,7 @@
   "editor.formatOnSave": true,
   "eslint.validate": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
   "rift.autostart": false,
   "i18n-ally.localesPaths": [
